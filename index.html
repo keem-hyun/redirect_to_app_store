@@ -3,19 +3,28 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Redirecting to Google Play...</title>
-        <meta
-            http-equiv="refresh"
-            content="1;url=https://play.google.com/store/apps/details?id=com.team.chord&hl=ko"
-        />
+        <title>Redirecting to App Store...</title>
         <script>
             (function () {
-                var target =
-                    "https://play.google.com/store/apps/details?id=com.team.chord&hl=ko";
-                window.location.replace(target);
-                setTimeout(function () {
-                    window.location.href = target;
-                }, 300);
+                var ua = navigator.userAgent || navigator.vendor || window.opera;
+                var isAndroid = /android/i.test(ua);
+                var isIOS = /iphone|ipad|ipod/i.test(ua);
+                var target;
+
+                if (isAndroid) {
+                    target =
+                        "https://play.google.com/store/apps/details?id=com.team.chord&hl=ko&pli=1";
+                } else if (isIOS) {
+                    target =
+                        "https://apps.apple.com/kr/app/%EC%BD%94%EC%B9%98%EC%BD%94%EC%B9%98/id6759194771";
+                }
+
+                if (target) {
+                    window.location.replace(target);
+                    setTimeout(function () {
+                        window.location.href = target;
+                    }, 300);
+                }
             })();
         </script>
         <style>
@@ -46,18 +55,41 @@
     </head>
     <body>
         <main>
-            <p>Redirecting you to Google Play Store.</p>
+            <p id="message">Detecting your device...</p>
             <p>
                 <a
-                    href="https://play.google.com/store/apps/details?id=com.team.chord&hl=ko"
+                    id="store-link"
+                    href="https://play.google.com/store/apps/details?id=com.team.chord&hl=ko&pli=1"
                     >If you are not redirected automatically, click here.</a
                 >
             </p>
+            <script>
+                (function () {
+                    var ua = navigator.userAgent || navigator.vendor || window.opera;
+                    var isAndroid = /android/i.test(ua);
+                    var isIOS = /iphone|ipad|ipod/i.test(ua);
+                    var msg = document.getElementById("message");
+                    var link = document.getElementById("store-link");
+
+                    if (isAndroid) {
+                        msg.textContent = "Redirecting you to Google Play Store...";
+                    } else if (isIOS) {
+                        msg.textContent = "Redirecting you to App Store...";
+                        link.href =
+                            "https://apps.apple.com/kr/app/%EC%BD%94%EC%B9%98%EC%BD%94%EC%B9%98/id6759194771";
+                        link.textContent = "If you are not redirected automatically, click here.";
+                    } else {
+                        msg.textContent = "Welcome! Choose your app store below.";
+                        link.href =
+                            "https://play.google.com/store/apps/details?id=com.team.chord&hl=ko&pli=1";
+                        link.textContent = "Google Play Store";
+                    }
+                })();
+            </script>
             <noscript>
-                <p>Automatic redirect is disabled in your browser.</p>
                 <p>
                     <a
-                        href="https://play.google.com/store/apps/details?id=com.team.chord&hl=ko"
+                        href="https://play.google.com/store/apps/details?id=com.team.chord&hl=ko&pli=1"
                         >Click here to open Google Play Store.</a
                     >
                 </p>
